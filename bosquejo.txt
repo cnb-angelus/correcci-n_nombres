@@ -1,0 +1,119 @@
+-------- buscadores.py ---------
+
+from abc import ABC, abstractmethod
+from typing List,Tuple
+
+# Clase abstract / interface
+class BuscadorGenerico(ABC):
+    @abstractmethod
+    def __init__(self, archivo, nombres_de_columnas,  thr_distancia):
+        pass
+
+    @abstractmethod
+    def similares(self, text: str) -> List[Tuple[str,float]]:
+        pass
+
+
+class BuscadorDistanciasCaras(BuscadorGenerico):
+    def __init__(archivo, numero_a_regresar, threshold_distancia, funciondistancia):
+        df = pd.openxls(archivo)
+        nombres_apellidos = df["nombre"]+df["appellidopaterno"]+df["apellidosmaterno]
+        # filtrar para los quitar los poco comunes
+        self.catalogo = nombres_apellidos
+        self.thrs = threshold_distancia 
+        self.funcion = funciondistancia
+     
+
+    def similares(self, texto):
+        distancias = [self.funcion.distance(texto,na) for na in self.catalogo]
+        distancias.sort(key....)
+        return [ (d["nombre"],d["score"]) for d in distancias 
+                  if d["score"]<self.thrs ]
+
+
+def genearar_subcadenas(texto, n=3):
+    #Tokenizar
+    #Encontrar los n-gramas de tokenes
+    #Hacer join de cada n-grama
+    #e.g.   [("andofernande",3,12),("Ferando",0,8),....     ]
+
+
+-------------- pipeline.py (notebook) -------------
+
+from buscadores import BuscadorLevenshtein, BuscadorNgramas, genearar_subcadenas
+from textdistance import jaccard,levenshtein
+
+for buscador in [BuscadorDistanciasCaras(funciondistancia=jaccard), 
+                 BuscadorDistanciasCaras(funciondistancia=levenshtein),
+                 BuscadorNgramas()]:
+    correcto = 0
+    for input,expected in all_inputs:
+        posibles_subcadenas = genearar_subcadenas(input)
+        #buscador = Buscador("Padron.xls")
+
+        all_matches = []
+        for subcadena,inicio,fin in posibles_subcadenas:
+            matches = buscador.similares(subcadena)
+            all_matches += [(match, inicio, fin, score) for match,score in matches]
+
+        pred = seleccionar_mejores(all_matches)
+        if pred==expected:
+            correcto += 1
+
+     print(f"Buscador {buscador.__class__.__name__}  acc: {correcto/len(all_inputs)}")
+
+
+
+
+
+
+------- producto -----
+
+class Corrector():
+    def __init__(self):
+        self.buscador = BuscadorLevenshtein(p1=12,p2="sfgdf")
+
+    def corregir(self, nombre_scaneado : str):
+        posibles_subcadenas = genearar_subcadenas(input)
+
+        all_matches = []
+        for subcadena,inicio,fin in posibles_subcadenas:
+            matches = self.buscador.similares(subcadena)
+            all_matches += [(match, inicio, fin, score) for match,score in matches]
+
+        pred = seleccionar_mejores(all_matches)
+        return pred[0]
+
+----- -----
+!pip install corrector
+from corrector import Corrector
+c = Corrector()
+c.corregir("vic tor M1rel es")
+
+
+-------------------
+"Fer ando Fer nande zLop3z"  -> ["Fer", "ando", "Fer", "nande", "zLop3z"]
+[ ("Fer","ando"),("Fer","ando","Fer"), ("ando","Fer"), ("ando","Fer",nande"),...  ]
+
+Deseado = ["Fernando", "Fernandez" "Lopez"]
+
+NoQueremos = ["Fer", "Fernando", "Fernandez", "Lopez"]  # Cubre demasiado 
+NoQueremos = ["Fernando"]                               # No cubre suficiente
+
+
+Cosine similarity:
+
+import numpy as np
+vectores = [vectorizar(nombre) for nombre in nombres_apellidos] # ~ 60000
+matriz = np.array((len(vectores), vectores[0].shape[0]))
+for i,vect in enumerate(vectores):
+    matriz[i,:] = vect / np.linalg.norm(vect)   
+
+vector_query = vectorizar("Nandofer")
+vector_query = vector_query / np.linalg.norm(vector_query)
+
+#  Mv
+cossimilarities = matriz.dot(vector_query.T)
+
+
+
