@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 import nltk
 from collections import Counter
 import pandas as pd
+import numpy as np
 
 class Buscador(ABC):
 
