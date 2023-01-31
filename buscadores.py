@@ -17,7 +17,7 @@ class BuscadorGenerico(ABC):
 
 class BuscadorDistancias(BuscadorGenerico):
     
-    def __init__(archivo, nombre_columna,thr_distancia,funciondistancia):
+    def __init__(thr_distancia,funciondistancia):
         #Crear catálogo de nombres y apellidos
         os.chdir("D:/github/correcci-n_nombres")
         csv_files = [f for f in os.listdir("raw_data/csv") if f.endswith('.csv')]
@@ -45,8 +45,6 @@ class BuscadorDistancias(BuscadorGenerico):
         self.catalogo = nombres_apellidos
         self.thr_distancia=thr_distancia
         self.funcion=funciondistancia
-        #Leer archivo de comparación
-        compara=pd.read_excel(archivo)
       
 
 
