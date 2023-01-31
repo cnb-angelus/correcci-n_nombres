@@ -48,7 +48,7 @@ class BuscadorDistancias(BuscadorGenerico):
       
 
 
-    def similares (self, texto):
+    def buscar (self, texto):
         distancias=[self.funcion(texto, na) for na in self.catalogo]
         distancias.sort(
             key=lambda x: x[1])
