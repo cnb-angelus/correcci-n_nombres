@@ -49,7 +49,7 @@ class BuscadorDistancias(BuscadorGenerico):
 
 
     def similares (self, texto):
-        distancias=[self.funcion(texto, i) for i in self.catalogo]
+        distancias=[self.funcion(texto, na) for na in self.catalogo]
         distancias.sort(
             key=lambda x: x[1])
         return[(d["nombre"],d["distancia"]) for d in distancias if d["distancia"]<self.thr_distancia]
