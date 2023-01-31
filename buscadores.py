@@ -18,10 +18,10 @@ class BuscadorGenerico(ABC):
 class BuscadorDistancias(BuscadorGenerico):
     
     def __init__(thr_distancia,funciondistancia):
-        #Crear catálogo de nombres y apellidos
         os.chdir("D:/github/correcci-n_nombres")
+        #Crear catálogo de nombres y apellidos
         csv_files = [f for f in os.listdir("raw_data/csv") if f.endswith('.csv')]
-        df = pd.concat((pd.read_csv("raw_data/csv/"+f, encoding='utf-8', sep=',', low_memory=False) for f in csv_files))
+        df = pd.concat((pd.read_csv("raw_data/csv/"+f, encoding='utf-8', sep=',', low_memory=False) for f in csv_files))       
         df.columns = map(str.lower, df.columns)
         df = df.iloc[:, 3:6]
         df.columns = ["primer_apellido", "segundo_apellido", "nombre"]
