@@ -16,7 +16,9 @@ class BuscadorGenerico(ABC):
 
 
 class BuscadorDistancias(BuscadorGenerico):
-    def __init__(self, archivo, nombre_columna,thr_distancia,funcion):
+    
+    def __init__(archivo, nombre_columna,thr_distancia,funciondistancia):
+        #Crear catálogo de nombres y apellidos
         os.chdir("D:/github/correcci-n_nombres")
         csv_files = [f for f in os.listdir("raw_data/csv") if f.endswith('.csv')]
         df = pd.concat((pd.read_csv("raw_data/csv/"+f, encoding='utf-8', sep=',', low_memory=False) for f in csv_files))
@@ -38,13 +40,14 @@ class BuscadorDistancias(BuscadorGenerico):
         #Dejar valores únicos
         apellidos = list(set(apellidos))
         nombres = list(set(nombres))
-
         #Hacer una lista general de nombres y apellidos
         nombres_apellidos = apellidos + nombres
         self.catalogo = nombres_apellidos
         self.thr_distancia=thr_distancia
-        #Usar distancia de Levenshtein para comparar cadenas de texto
-        self.funcion=textdistance.levenshtein
+        self.funcion=funciondistancia
+        #Leer archivo de comparación
+        compara=pd.read_excel(archivo)
+      
 
 
     def similares (self, texto):
