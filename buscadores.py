@@ -46,8 +46,6 @@ class BuscadorDistancias(BuscadorGenerico):
         #Usar distancia de Levenshtein para comparar cadenas de texto
         self.funcion=textdistance.levenshtein
 
-    
-
 
     def similares (self, texto):
         distancias=[self.funcion(texto, i) for i in self.catalogo]
