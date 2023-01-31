@@ -5,10 +5,11 @@ import os
 import pandas as pd
 from collections import Counter
 import nltk
+from glob import glob
 
 class Buscador(ABC):
     @abstractclassmethod
-    def __init__(self, file, ncol_name,thr_dist):
+    def __init__(self, path, ncol_name,thr_dist):
         pass
     
     @abstractclassmethod
@@ -18,12 +19,13 @@ class Buscador(ABC):
 
 class BuscadorDistancias(Buscador):
     
-    def __init__(file,thr_dist,fun_dist):
+    def __init__(path,thr_dist,fun_dist):
         self.thr_distancia=thr_dist
         self.funcion=fun_dist
         #Crear catálogo de nombres y apellidos
-        csv_files = [f for f in os.listdir(os.path.join(file,"raw_data/csv")) if f.endswith('.csv')]
-        df = pd.concat((pd.read_csv("raw_data/csv/"+f, encoding='utf-8', sep=',', low_memory=False) for f in csv_files))       
+        #csv_files = [f for f in os.listdir(os.path.join(path,"raw_data/csv")) if f.endswith('.csv')]
+        csv_files  = glob(os.path.join(path,"*.csv"))
+        df = pd.concat((pd.read_csv(f, encoding='utf-8', sep=',', low_memory=False) for f in csv_files))
         df.columns = map(str.lower, df.columns)
         df = df.iloc[:, 3:6]
         df.columns = ["primer_apellido", "segundo_apellido", "nombre"]
@@ -51,8 +53,6 @@ class BuscadorDistancias(Buscador):
         distancias.sort(
             key=lambda x: x[1])
         return[(d["nombre"],d["distancia"]) for d in distancias if d["distancia"]<self.thr_distancia]
-
-
 
 
 def ngrams_gen(text, n): #faltaria quitar signos de puntuacion
