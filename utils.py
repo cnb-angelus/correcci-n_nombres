@@ -63,6 +63,6 @@ def ngrams_gen(sentence: str, n: int):  # faltaria quitar signos de puntuacion
     conc_tuples = [''.join(t) for t in grams]  # for each 2,3-gram join them
     # obtain the q-grams and their ocurrence
     count_grams = [Counter(list(nltk.ngrams(tup, n))) for tup in conc_tuples]
-    return count_grams
+    return count_grams, two_grams
 
 

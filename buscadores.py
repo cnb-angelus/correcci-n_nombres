@@ -38,9 +38,10 @@ class BuscadorDistancias(Buscador):
         self.funcion = fun_dist
         self.n = 3
         self.catalogo = generar_catalogo(path,
-                                         ncol_name,
-                                         min_freq,
-                                         nombres_ignorables)
+                                         cols_to_consider=ncol_name,
+                                         min_freq=min_freq,
+                                         nombres_ignorables=nombres_ignorables,
+                                         cols_a_dividr=['NOMBRE'])
 
     def similares(self, texto):
         distancias = [self.funcion(texto, na) for na in self.catalogo]
