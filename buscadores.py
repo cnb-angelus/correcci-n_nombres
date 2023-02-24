@@ -44,12 +44,12 @@ class BuscadorDistancias(Buscador):
                                          cols_a_dividr=['NOMBRE'])
 
     def similares(self, texto):
-        distancias = [self.funcion(texto, na) for na in self.catalogo]
+        distancias = [(na,self.funcion(texto, na)) for na in self.catalogo]
         distancias.sort(
             key=lambda x: x[1])
-        return [(d["nombre"], d["distancia"])
+        return [(d[0], d[1])
                 for d in distancias
-                if d["distancia"] < self.thr_distancia]
+                if d[1] < self.thr_distancia]
 
 
 class BuscadorLSH(Buscador):
