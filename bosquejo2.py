@@ -1,3 +1,5 @@
+
+
 buscador = Buscador(....)
 rangos : Dict[nombre, rango]  = dict()
 
@@ -61,8 +63,20 @@ def infer_spaces(s):
 
     return " ".join(reversed(out))
 
-nombre_a_limpiar = "Fern4ndof 3rnand ezLop z"
-sinespacios = "".join(nombre_a_limpiar.split())  # Fern4ndof3rnandezLopz
-mejor_conespacios = infer_spaces(sinespacios) #  Fern4ndo f3rnandez Lopz
-nombrelimpio = " ".join([mejor_nombre(pedazo)
-                        for pedazo in mejor_conespacios.split()])
+#nombre_a_limpiar = "Fern4ndof 3rnand ezLop z"
+def predictor(nombre_a_limpiar):
+    sinespacios = "".join(nombre_a_limpiar.split())  # Fern4ndof3rnandezLopz
+    mejor_conespacios = infer_spaces(sinespacios) #  Fern4ndo f3rnandez Lopz
+    nombrelimpio = " ".join([mejor_nombre(pedazo)
+                            for pedazo in mejor_conespacios.split()])
+
+import random
+def predictor_dummy(nombre_a_limpiar):
+    if len(nombre_a_limpiar)<2:
+        return nombre_a_limpiar
+    if random.random() < 0.8:
+        return nombre_a_limpiar
+    else:
+        LL = [l for l in nombre_a_limpiar]
+        random.shuffle(LL)
+        return "".join(LL)
