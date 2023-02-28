@@ -92,7 +92,7 @@ c.corregir("vic tor M1rel es")
 
 
 -------------------
-"Fer ando Fer nande zLop3z"  -> ["Fer", "ando", "Fer", "nande", "zLop3z"]
+"ser ando Fer nande zLop3z"  -> ["Fer", "ando", "Fer", "nande", "zLop3z"]
 [ ("Fer","ando"),("Fer","ando","Fer"), ("ando","Fer"), ("ando","Fer",nande"),...  ]
 
 Deseado = ["Fernando", "Fernandez" "Lopez"]
