@@ -9,6 +9,13 @@ except ImportError:
 
 
 class WideHash(LSHash):
+    """
+    A class to perform approximate nearest neighbour search in high dimensions.
+    It stores a number of hash tables (as per LSHash) and, when queried with a vector
+    find vectors that fall into the same bucket in any of the hash tables.
+    It then 
+    """
+
     def query(self, query_point, num_results=None, distance_func=None,
               max_width: int = 0):
         """ Takes `query_point` which is either a tuple or a list of numbers,
@@ -87,5 +94,6 @@ class WideHash(LSHash):
         candidates = [(ix, d_func(query_point, self._as_np_array(ix)))
                       for ix in candidates]
         candidates = sorted(candidates, key=lambda x: x[1])
+        
 
         return candidates[:num_results] if num_results else candidates
